@@ -449,13 +449,13 @@
       // Single arc: Coimbatore → Tokyo
       const arcs = [{
         startLat: 10.9,  startLng: 77.0,
-        endLat:   35.68, endLng:   139.69,
-        color: ['rgba(255,153,51,0.95)', 'rgba(239,68,68,0.95)']
+        endLat:   60.2,  endLng:   24.9,
+        color: ['rgba(255,153,51,0.95)', 'rgba(94,143,238,0.95)']
       }];
 
       const pts = [
         { lat: 10.9,  lng: 77.0,   color: '#FF9933', size: 0.50, label: 'Coimbatore, India' },
-        { lat: 35.68, lng: 139.69, color: '#EF4444', size: 0.50, label: 'Tokyo, Japan'       }
+        { lat: 60.2,  lng: 24.9,   color: '#5E8FEE', size: 0.50, label: 'Helsinki, Finland'  }
       ];
 
       globeInstance = Globe()(container);
@@ -495,7 +495,7 @@
 
       // 2. After 700ms pan to Tokyo (4.5s journey across Asia)
       setTimeout(() => {
-        globeInstance.pointOfView({ lat: 35.68, lng: 139.69, altitude: 1.7 }, 4500);
+        globeInstance.pointOfView({ lat: 60.2,  lng: 24.9,   altitude: 1.7 }, 4500);
       }, 700);
 
       // 3. After pan settles, enable gentle auto-rotate
