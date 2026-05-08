@@ -446,23 +446,16 @@
       const W = container.clientWidth || 792;
       const H = 256;
 
-      const arcs = [
-        {
-          startLat: 10.9,  startLng: 77.0,   // Coimbatore
-          endLat:   60.2,  endLng:   24.9,   // Helsinki
-          color: ['rgba(255,153,51,0.95)', 'rgba(94,143,238,0.95)']
-        },
-        {
-          startLat: 60.2,  startLng: 24.9,   // Helsinki
-          endLat:   35.68, endLng:   139.69, // Tokyo
-          color: ['rgba(94,143,238,0.95)', 'rgba(239,68,68,0.95)']
-        }
-      ];
+      // Single arc: Coimbatore → Tokyo
+      const arcs = [{
+        startLat: 10.9,  startLng: 77.0,
+        endLat:   35.68, endLng:   139.69,
+        color: ['rgba(255,153,51,0.95)', 'rgba(239,68,68,0.95)']
+      }];
 
       const pts = [
-        { lat: 10.9,  lng: 77.0,   color: '#FF9933', size: 0.45, label: 'Coimbatore' },
-        { lat: 60.2,  lng: 24.9,   color: '#5E8FEE', size: 0.45, label: 'Helsinki'   },
-        { lat: 35.68, lng: 139.69, color: '#EF4444', size: 0.45, label: 'Tokyo'      }
+        { lat: 10.9,  lng: 77.0,   color: '#FF9933', size: 0.50, label: 'Coimbatore, India' },
+        { lat: 35.68, lng: 139.69, color: '#EF4444', size: 0.50, label: 'Tokyo, Japan'       }
       ];
 
       globeInstance = Globe()(container);
@@ -474,11 +467,11 @@
         .atmosphereAltitude(0.14)
         .arcsData(arcs)
         .arcColor('color')
-        .arcAltitude(0.24)
-        .arcStroke(1.6)
-        .arcDashLength(0.35)
+        .arcAltitude(0.30)
+        .arcStroke(1.8)
+        .arcDashLength(0.40)
         .arcDashGap(0.14)
-        .arcDashAnimateTime(2400)
+        .arcDashAnimateTime(2200)
         .pointsData(pts)
         .pointColor('color')
         .pointAltitude(0.02)
@@ -492,13 +485,24 @@
         .labelDotRadius(0.3)
         .labelResolution(2);
 
-      // Frame between all three cities
-      globeInstance.pointOfView({ lat: 35, lng: 88, altitude: 2.3 });
-
-      // Slow auto-rotate
+      // Disable user interaction during cinematic pan
       const ctrl = globeInstance.controls();
-      ctrl.autoRotate = true;
-      ctrl.autoRotateSpeed = 0.35;
+      ctrl.enableZoom = false;
+
+      // ── Cinematic sequence ──
+      // 1. Start locked on Coimbatore
+      globeInstance.pointOfView({ lat: 10.9, lng: 77.0, altitude: 1.7 });
+
+      // 2. After 700ms pan to Tokyo (4.5s journey across Asia)
+      setTimeout(() => {
+        globeInstance.pointOfView({ lat: 35.68, lng: 139.69, altitude: 1.7 }, 4500);
+      }, 700);
+
+      // 3. After pan settles, enable gentle auto-rotate
+      setTimeout(() => {
+        ctrl.autoRotate = true;
+        ctrl.autoRotateSpeed = 0.3;
+      }, 5600);
     }
 
     function go(idx) {
