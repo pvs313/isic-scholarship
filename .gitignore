@@ -1,0 +1,11 @@
+# Source assets (embedded in index.html as base64)
+*.jpg
+*.jpeg
+*.png
+# Temp/generated files
+_b64.json
+*.docx
+~$*
+ui_skill.md
+content.txt
+.claude/
